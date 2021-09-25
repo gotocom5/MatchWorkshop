@@ -9,7 +9,7 @@ public class EndGame : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (MessageDialog.activeSelf == false && DataManager.UserData.GetItemData().Count == 9)
+            if (MessageDialog.activeSelf == false && DataManager.UserData.GetItemByID(1010009) != null)
             {
                 MessageDialog.SetActive(true);
             }

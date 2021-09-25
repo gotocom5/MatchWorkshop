@@ -25,7 +25,7 @@ public class Main : MonoBehaviour
         if (this.BagDialog.activeSelf == false)
         {
             this.BagDialog.GetComponent<BagDialog>().SetInfo();
-            this.BagDialog.SetActive(true);  
+            this.BagDialog.SetActive(true);
         }
         else
         {
@@ -33,8 +33,12 @@ public class Main : MonoBehaviour
         }
     }
 
-    public void Hint() 
+    public void Hint()
     {
-        hint.transform.DOMove(new Vector2(hint.transform.position.x + 1500, hint.transform.position.y), 1.5f).SetEase(Ease.OutBack);
+        hint.transform.DOMove(new Vector2(hint.transform.position.x + 1500, hint.transform.position.y), 0.5f).SetEase(Ease.OutBack);
+        if (hint.transform.position.x > -100)
+        {
+            Destroy(hint.gameObject, 0.6f);
+        }
     }
 }

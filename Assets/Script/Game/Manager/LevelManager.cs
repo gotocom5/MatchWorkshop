@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -18,39 +19,51 @@ public class LevelManager : MonoBehaviour
 
     private void ResertProgress(EventParam eventParam)
     {
-        if (DataManager.UserData.GetItemData().Count == 9)
-        {
-            DataManager.UserData.SetDefaultItemData();
-            isInitialization = true;
-        }
+        DataManager.UserData.SetDefaultItemData();
     }
     private void GameProgress(EventParam eventParam)
     {
-        List<UserItemData> Items = DataManager.UserData.GetItemData();
+        var Items = DataManager.UserData.GetItemData();
         if (Items.Count < 6)
         {
-            var defaultItem = DataManager.UserData.getDefaultItem();
+            var defaultItem = new List<UserItemData>
+       {
+       new UserItemData() { id = 1010002, count = 7, },
+       new UserItemData() { id = 1010003, count = 6, },
+       new UserItemData() { id = 1010004, count = 3, },
+       new UserItemData() { id = 1010005, count = 8, },
+       new UserItemData() { id = 1010006, count = 5, },
+       new UserItemData() { id = 1010008, count = 2, },
+       };
             for (int i = 0; i < defaultItem.Count; i++)
             {
                 DataManager.UserData.AddItemData(defaultItem[i].id, 1);
             }
             return;
         }
+        var whiteChocolate = DataManager.UserData.GetItemByID(1010001);
+        var whiteCure = DataManager.UserData.GetItemByID(1010007);
+        var key = DataManager.UserData.GetItemByID(1010009);
+        if (key != null)
+        {
+            return;
+        }
 
-        if (Items.Count == 6 && isInitialization)
+        if (Items.Count == 6 && whiteChocolate == null)
         {
             StartCoroutine(InstantiateItem(1010001, 1));
-            isInitialization = false;
+            return;
         }
-        if (Items.Count == 7)
-        {
-            StartCoroutine(InstantiateItem(1010007, 1));
-        }
-        if (Items.Count == 8)
+        if (whiteCure != null)
         {
             StartCoroutine(InstantiateItem(1010009, 1));
+            return;
         }
-
+        if (whiteChocolate != null)
+        {
+            StartCoroutine(InstantiateItem(1010007, 1));
+            return;
+        }
     }
     private IEnumerator InstantiateItem(int Id, int Count)
     {

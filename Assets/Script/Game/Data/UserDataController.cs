@@ -7,7 +7,14 @@ public class UserDataController
 {
     private List<UserItemData> Items = new List<UserItemData>();
     private bool initialization = true;
-    private List<UserItemData> DefaultItems = new List<UserItemData>
+
+    /// <summary>
+    /// 設置預設狀態
+    /// </summary>
+    /// <returns></returns>
+    public void SetDefaultItemData()
+    {
+        this.Items = new List<UserItemData>
        {
        new UserItemData() { id = 1010002, count = 7, },
        new UserItemData() { id = 1010003, count = 6, },
@@ -16,14 +23,6 @@ public class UserDataController
        new UserItemData() { id = 1010006, count = 5, },
        new UserItemData() { id = 1010008, count = 2, },
        };
-
-    /// <summary>
-    /// 設置預設狀態
-    /// </summary>
-    /// <returns></returns>
-    public void SetDefaultItemData()
-    {
-        this.Items = this.DefaultItems;
         EventParam eventParam = new EventParam();
         EventManager.TriggerEvent(EventManager.EventConfig.BagReset.ToString(), eventParam);
     }
@@ -34,7 +33,7 @@ public class UserDataController
     /// <param name="count"></param>數量
     public void AddItemData(int id, int count)
     {
-        var ItemInfo = this.GetItemData().FirstOrDefault(t => t.id == id);
+        var ItemInfo = this.GetItemByID(id);
         if (ItemInfo != null)
         {
             ItemInfo.count = ItemInfo.count + count;
@@ -47,10 +46,11 @@ public class UserDataController
         EventManager.TriggerEvent(EventManager.EventConfig.BagReset.ToString(), eventParam);
     }
 
-    public List<UserItemData> getDefaultItem() 
+    public UserItemData GetItemByID(int Id)
     {
-        return this.DefaultItems;
+        return Items.FirstOrDefault(t => t.id == Id);
     }
+
     public int GetItemLastCount(int Id)
     {
         var ItemInfo = this.GetItemData().FirstOrDefault(t => t.id == Id);
@@ -78,11 +78,11 @@ public class UserDataController
     }
     public List<UserItemData> GetItemData()
     {
-        if (this.Items.Count == 0&& initialization)
+        if (this.Items.Count == 0 && initialization)
         {
             try
             {
-                
+
                 LoadData();
             }
             catch
@@ -90,7 +90,7 @@ public class UserDataController
                 Debug.LogError("ItemData undefind");
                 SetDefaultItemData();
                 SaveData();
-            }    
+            }
         }
         return this.Items;
     }
@@ -101,7 +101,7 @@ public class UserDataController
     {
         string ItemData = File.ReadAllText(Application.dataPath + "/Resources/JSON/ItemData.txt");
         UserItemData[] ItemsArray = JsonHelper.FromJson<UserItemData>(ItemData);
-        if (ItemsArray != null) 
+        if (ItemsArray != null)
         {
             initialization = false;
         }
