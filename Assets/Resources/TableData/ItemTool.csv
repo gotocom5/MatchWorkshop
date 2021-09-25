@@ -1,0 +1,10 @@
+itemId,itemNameKey,itemContentKey,numMax,itemPrice,toolType
+1010001,chocolateWhite,吃了可以拔出闡釋者,100,10,1
+1010002,chocolateBlack,吃了可以拔出逐暗者,100,10,1
+1010003,cureBlue,喝了補充10點MP,100,10,2
+1010004,cureGreen,喝了補充100點MP,100,10,2
+1010005,cureOrgen,喝了補充1000點MP,100,10,2
+1010006,cureRed,喝了補充10點HP,100,10,2
+1010007,cureWhite,喝了補充100點HP,100,10,2
+1010008,cureYellow,喝了補充1000點HP,100,10,2
+1010009,key,得到後解鎖終點,100,10,3
